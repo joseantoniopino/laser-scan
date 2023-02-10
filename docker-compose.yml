@@ -12,6 +12,8 @@ services:
       - "${DB_PORT}:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./data/data.sql:/data/application/init.sql
+    command: --init-file /data/application/init.sql
     networks:
       - the_force
   app:
