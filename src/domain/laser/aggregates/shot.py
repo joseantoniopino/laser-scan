@@ -29,6 +29,9 @@ class Shot(ILaserShot):
               f"hacia el blanco {self._target.get_name()} en "
               f"{self._target.get_position()}. Tiempo de recarga: {reload_time}")
 
+    def get_last_fire(self):
+        return self._last_fire
+
     def _can_fire(self):
         return datetime.now() >= self._last_fire + self._reload_time()
 
