@@ -3,9 +3,11 @@ from math import sqrt
 
 from src.domain.common.faction import Faction
 from src.domain.common.value_objects import Coordinates
+from src.domain.laser.interfaces.i_laser_shot import ILaserShot
+from src.domain.target.target import Target
 
 
-class Shot:
+class Shot(ILaserShot):
     def __init__(self, origin: Coordinates, target: Target):
         self._origin = origin
         self._last_fire = None
@@ -23,7 +25,9 @@ class Shot:
             raise Exception("El laser aún no se ha recargado.")
         reload_time = self._reload_time
         self._last_fire = datetime.now()
-        print(f"El laser ha sido disparado desde {self._origin} hacia el blanco {self._target.get_name()} en {self._target.get_position()}. Tiempo de recarga: {reload_time}")
+        print(f"El laser ha sido disparado desde {self._origin} "
+              f"hacia el blanco {self._target.get_name()} en "
+              f"{self._target.get_position()}. Tiempo de recarga: {reload_time}")
 
     def _can_fire(self):
         return datetime.now() >= self._last_fire + self._reload_time()
