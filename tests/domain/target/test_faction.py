@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.domain.target.faction import Faction
+from src.domain.common.faction import Faction
 
 
 class TestFaction(TestCase):
