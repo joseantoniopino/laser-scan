@@ -4,6 +4,29 @@ from src.domain.common.value_objects import Coordinates
 
 
 class TestCoordinates(TestCase):
+
+    def test_get_x(self):
+        # Arrange
+        x = 1
+        coordinates = Coordinates(x, 0)
+
+        # Act
+        result = coordinates.get_x()
+
+        # Assert
+        self.assertEqual(result, x)
+
+    def test_get_y(self):
+        # Arrange
+        y = 1
+        coordinates = Coordinates(0, y)
+
+        # Act
+        result = coordinates.get_y()
+
+        # Assert
+        self.assertEqual(result, y)
+
     def test_coordinates_initialization(self):
         # Arrange
         x = 1
@@ -13,8 +36,8 @@ class TestCoordinates(TestCase):
         coordinates = Coordinates(x, y)
 
         # Assert
-        self.assertEqual(coordinates.x, x)
-        self.assertEqual(coordinates.y, y)
+        self.assertEqual(coordinates.get_x(), x)
+        self.assertEqual(coordinates.get_y(), y)
 
     def test_equality(self):
         # Arrange
@@ -51,4 +74,3 @@ class TestCoordinates(TestCase):
         # Assert
         expected_result = f"({x}, {y})"
         self.assertEqual(result, expected_result)
-
