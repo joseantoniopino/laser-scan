@@ -1,6 +1,6 @@
 import random
 
-from src.domain.target import Faction
+from src.domain.target.faction import Faction
 
 
 class ShipGenerator:
