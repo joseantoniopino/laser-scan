@@ -7,7 +7,7 @@ from src.domain.common.value_objects import Coordinates
 
 class TestTarget(TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.position = Coordinates(0, 0)
         self.target = Target(self.position)
 
@@ -21,7 +21,7 @@ class TestTarget(TestCase):
         # Assert
         self.assertIsInstance(result, str)
         self.assertIn(result, [f.value for f in Faction])
-        self.assertEqual(result, target.faction)
+        self.assertEqual(result, target.get_faction())
         self.assertGreater(len(result), 0)
 
     def test_get_name(self):
