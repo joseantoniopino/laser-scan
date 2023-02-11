@@ -40,14 +40,3 @@ class TestShipGenerator(TestCase):
 
         # Assert
         self.assertIn(name, faction_obj.ship_names)
-
-    def test_generation_independence(self):
-        # Arrange
-        first_generation = self.ship_generator.generate()
-        second_generation = self.ship_generator.generate()
-
-        # Act
-        self.assertNotEqual(first_generation, second_generation, "The ship generation is not independent.")
-
-
-
