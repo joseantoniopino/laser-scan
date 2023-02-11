@@ -4,20 +4,20 @@ from src.domain.target.ship_generator import ShipGenerator
 
 class Target:
     def __init__(self, position: Coordinates):
-        self.faction, self.name = ShipGenerator().generate()
-        self.position = position
+        self._faction, self._name = ShipGenerator().generate()
+        self._position = position
 
     def get_faction(self):
-        return self.faction
+        return self._faction
 
     def get_name(self):
-        return self.name
+        return self._name
 
     def get_position(self):
-        return self.position
+        return self._position
 
     def __str__(self):
-        return f"Target(faction = '{self.faction}' ,name='{self.name}', position={self.position})"
+        return f"Target(faction='{self._faction}', name='{self._name}', position={self._position})"
 
     def __repr__(self):
         return self.__str__()
