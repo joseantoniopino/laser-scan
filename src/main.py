@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.presentation.http_api.api import api_router
+from src.gateway.http_api.api import api_router
 
 
 def create_app() -> FastAPI:

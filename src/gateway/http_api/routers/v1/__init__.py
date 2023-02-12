@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from src.presentation.http_api.routers.v1 import lasers, targets
+from src.gateway.http_api.routers.v1 import lasers, targets
 
 version = 'v1'
 router = APIRouter(prefix=f'/{version}')
