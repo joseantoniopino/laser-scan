@@ -3,6 +3,7 @@ from math import sqrt
 
 from src.domain.common.faction import Faction
 from src.domain.common.value_objects import Coordinates
+from src.domain.exceptions.domain_exception import DomainException
 from src.domain.laser.interfaces.i_laser_shot import ILaserShot
 from src.domain.target.target import Target
 
@@ -18,11 +19,11 @@ class Shot(ILaserShot):
 
     def fire(self):
         if not self._target:
-            raise Exception("No hay blanco seleccionado.")
+            raise DomainException(status_code=404, code='no_target', detail='Target not found.')
         if self._target.get_faction() == Faction.REBEL.value:
-            raise Exception("No se puede apuntar a un blanco amigo.")
-        if self._last_fire and not self._can_fire():
-            raise Exception("El laser aún no se ha recargado.")
+            raise DomainException(status_code=422, code='target_friend', detail='Target is a friend!!')
+        if not self._can_fire():
+            raise DomainException(status_code=400, code='reloading', detail='Laser is reloading...')
         reload_time = self._reload_time
         self._last_fire = datetime.now()
         print(f"El laser ha sido disparado desde {self._origin} "
@@ -33,7 +34,10 @@ class Shot(ILaserShot):
         return self._last_fire
 
     def _can_fire(self):
-        return datetime.now() >= self._last_fire + self._reload_time()
+        # If it is of the None type, it means that it has not fired yet.
+        if isinstance(self._last_fire, type(None)):
+            return True
+        return datetime.now() >= self._last_fire + self._reload_time
 
     def _calculate_reload_time(self) -> timedelta:
         if self._distance < 10:
@@ -43,7 +47,7 @@ class Shot(ILaserShot):
         elif 50 <= self._distance <= 100:
             return timedelta(seconds=105)
         else:
-            raise Exception("El laser solo puede disparar hasta 100 unidades astronómicas.")
+            raise DomainException(status_code=422, code='out_of_range', detail='Target is out of range.')
 
     def _calculate_distance(self) -> float:
         origin_x = self._origin.get_x()
