@@ -3,9 +3,13 @@ from src.domain.target.ship_generator import ShipGenerator
 
 
 class Target:
-    def __init__(self, position: Coordinates):
+    def __init__(self, id: str, position: Coordinates):
+        self._id = id
         self._faction, self._name = ShipGenerator().generate()
         self._position = position
+
+    def get_id(self):
+        return self._id
 
     def get_faction(self):
         return self._faction
