@@ -13,7 +13,7 @@ class AimRequest:
             raise InfrastructureException(status_code=422, code="invalid_y", detail="y must be a float between 0 and ")
         try:
             uuid.UUID(laser_id)
-        except InfrastructureException:
+        except ValueError:
             raise InfrastructureException(status_code=422, code="invalid_laser_id", detail="laser_id must be a valid UUID")
 
         self.laser_id = laser_id

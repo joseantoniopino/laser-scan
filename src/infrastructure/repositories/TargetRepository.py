@@ -17,7 +17,7 @@ class TargetRepository(ITargetRepository):
         nearest_distance = float("inf")
         for target in targets:
             target_coordinates = Coordinates(target.x, target.y)
-            distance = Point(origin, target_coordinates).distance()
+            distance = Point().distance(origin, target_coordinates)
             if distance < nearest_distance:
                 nearest_target = target
                 nearest_distance = distance
