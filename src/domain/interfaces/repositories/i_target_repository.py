@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import List, Dict
 
 
 class ITargetRepository(ABC):
     @abstractmethod
-    def find_nearest(self, x, y):
+    def all(self) -> List[Dict[str, float]]:
         pass

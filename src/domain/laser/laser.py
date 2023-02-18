@@ -1,25 +1,25 @@
 from src.domain.common.value_objects import Coordinates
-from src.domain.laser.interfaces.i_laser_shot import ILaserShot
-from src.domain.target.target import Target
+from datetime import datetime
+from typing import Union
 
 
 class Laser:
-    def __init__(self, origin: Coordinates, target: Target, shot: ILaserShot):
+    def __init__(self, laser_id: str, origin: Coordinates, last_fire: Union[datetime, None]):
+        self._laser_id = laser_id
         self._origin = origin
-        self._target = target
-        self._shot = shot
+        self._last_fire = last_fire
+
+    def get_laser_id(self):
+        return self._laser_id
+
+    def get_last_fire(self):
+        return self._last_fire
 
     def get_origin(self):
         return self._origin
 
-    def fire(self):
-        return self._shot.fire()
-
-    def get_last_fire(self):
-        return self._shot.get_last_fire()
-
     def __str__(self):
-        return f"Laser(origin={self._origin}, target={self._target}, last_fire={self.get_last_fire()})"
+        return f"Laser(laser_id={self._laser_id}, origin={self._origin}, last_fire={self._last_fire})"
 
     def __repr__(self):
         return self.__str__()
