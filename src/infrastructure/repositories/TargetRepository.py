@@ -1,8 +1,6 @@
 from typing import List, Dict, Union
 
 from sqlalchemy import text
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.types import CHAR, VARCHAR
 
 from src.infrastructure.db.session_manager import session_scope
 from src.domain.interfaces.repositories.i_target_repository import ITargetRepository

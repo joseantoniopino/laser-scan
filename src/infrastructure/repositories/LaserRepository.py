@@ -1,4 +1,6 @@
 import uuid
+from datetime import datetime
+
 from sqlalchemy import text
 
 from src.domain.interfaces.repositories.i_laser_repository import ILaserRepository
@@ -21,3 +23,10 @@ class LaserRepository(ILaserRepository):
             'last_fire': laser[3]
         }
         return laser_dict
+
+    def all(self):
+        with session_scope() as session:
+            query = text("SELECT * FROM lasers")
+            result = session.execute(query)
+            lasers = result.fetchall()
+        return [{"id": str(laser[0]), "x": float(laser[1]), "y": float(laser[2]), "last_shot": datetime(laser[3]) if laser[3] is not None else None} for laser in lasers]

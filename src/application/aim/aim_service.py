@@ -1,5 +1,8 @@
-from typing import List, Dict
+from typing import List, Dict, Union, Optional
 
+from src.application.aim.aim_dto import AimDTO
+from src.application.laser.DTO.laser_dto import LaserDTO
+from src.application.target.DTO.target_dto import TargetDTO
 from src.domain.common.point import Point
 from src.domain.common.value_objects import Coordinates
 from src.domain.interfaces.repositories.i_laser_repository import ILaserRepository
@@ -14,17 +17,71 @@ class AimService:
         self._laser_repository = laser_repository
 
     def handle(self, laser_id: str, x: float, y: float):
-        laser = self._laser_repository.find_by_id(laser_id)
-        laser_entity = LaserFactory.create_laser(laser_id=laser['id'], x=laser['x'], y=laser['y'], last_fire=laser['last_fire'])
         available_targets = self._target_repository.all()
-        for target in available_targets:
-            target_entity = TargetFactory.create_target(target_id=target['id'], x=target['x'], y=target['y'])
-            return target_entity
-            # distance = Point.distance(laser_entity.get_origin(), target_entity.get_position())
-        
+        available_lasers = self._laser_repository.all()
+        laser_dto = None
+        target_dto = None
+        while available_targets:
+            nearest_target = self._get_nearest_target(Coordinates(x, y), available_targets)
+            target_entity = TargetFactory.create_target(
+                target_id=nearest_target['id'],
+                x=nearest_target['x'],
+                y=nearest_target['y'],
+            )
+            target_entity_faction = target_entity.get_faction()
+            if target_entity_faction == 'Rebel':
+                available_targets.remove(nearest_target)
+            else:
+                nearest_laser = self._get_nearest_laser(target_entity.get_position(), available_lasers)
+                laser_entity = LaserFactory.create_laser(
+                    laser_id=nearest_laser['id'],
+                    x=nearest_laser['x'],
+                    y=nearest_laser['y'],
+                    last_fire=nearest_laser.get('last_fire')
+                )
+                laser_dto = LaserDTO(
+                    laser_id=laser_entity.get_laser_id(),
+                    last_fire=laser_entity.get_last_fire(),
+                    x=laser_entity.get_position().get_x(),
+                    y=laser_entity.get_position().get_y()
+                )
+                target_dto = TargetDTO(
+                    target_id=target_entity.get_target_id(),
+                    faction=target_entity.get_faction(),
+                    name=target_entity.get_name(),
+                    x=target_entity.get_position().get_x(),
+                    y=target_entity.get_position().get_y()
+                )
+                break
+        return AimDTO(laser_dto, target_dto)
 
+    @staticmethod
+    def _get_nearest_target(
+            aim_position: Coordinates,
+            targets: List[Dict[str, Union[str, float]]]
+    ) -> Optional[Dict[str, Union[str, float]]]:
+        nearest_target = None
+        nearest_distance = float('inf')
+        for target in targets:
+            target_position = Coordinates(target['x'], target['y'])
+            distance = Point.distance(aim_position, target_position)
+            if distance < nearest_distance:
+                nearest_distance = distance
+                nearest_target = target
+        return nearest_target
 
-
-
-
+    @staticmethod
+    def _get_nearest_laser(
+            target_position: Coordinates,
+            lasers: List[Dict[str, Union[str, float]]]
+    ) -> Optional[Dict[str, Union[str, float]]]:
+        nearest_laser = None
+        nearest_distance = float('inf')
+        for laser in lasers:
+            laser_position = Coordinates(laser['x'], laser['y'])
+            distance = Point.distance(laser_position, target_position)
+            if distance < nearest_distance:
+                nearest_distance = distance
+                nearest_laser = laser
+        return nearest_laser
 

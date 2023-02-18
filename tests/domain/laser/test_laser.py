@@ -23,13 +23,13 @@ class TestLaser(TestCase):
         shot = Shot(origin, target)
         laser = Laser(origin, target, shot)
 
-        self.assertEqual(laser._origin, origin)
+        self.assertEqual(laser._position, origin)
         self.assertEqual(laser._target, target)
         self.assertEqual(laser._shot, shot)
 
     def test_get_origin(self):
-        laser = Laser(origin=self.origin, target=self.target, shot=self.shot)
-        self.assertEqual(laser.get_origin(), self.origin)
+        laser = Laser(position=self.origin, target=self.target, shot=self.shot)
+        self.assertEqual(laser.get_position(), self.origin)
 
     def test_fire(self):
         # Test fire
