@@ -22,7 +22,7 @@ class ScanService:
         laser_dto = None
         target_dto = None
         while available_targets:
-            nearest_target = self._get_nearest_target(Coordinates(x, y), available_targets)
+            nearest_target = self._get_nearest_object(Coordinates(x, y), available_targets)
             target_entity = TargetFactory.create_target(
                 target_id=nearest_target['id'],
                 x=nearest_target['x'],
@@ -32,7 +32,7 @@ class ScanService:
             if target_entity_faction == 'Rebel':
                 available_targets.remove(nearest_target)
             else:
-                nearest_laser = self._get_nearest_laser(target_entity.get_position(), available_lasers)
+                nearest_laser = self._get_nearest_object(target_entity.get_position(), available_lasers)
                 laser_entity = LaserFactory.create_laser(
                     laser_id=nearest_laser['id'],
                     x=nearest_laser['x'],
@@ -56,32 +56,19 @@ class ScanService:
         return ScanDTO(laser_dto, target_dto)
 
     @staticmethod
-    def _get_nearest_target(
-            scan_position: Coordinates,
-            targets: List[Dict[str, Union[str, float]]]
+    def _get_nearest_object(
+            position: Coordinates,
+            objects: List[Dict[str, Union[str, float]]],
+            x_key: str = 'x',
+            y_key: str = 'y',
     ) -> Optional[Dict[str, Union[str, float]]]:
-        nearest_target = None
+        nearest_object = None
         nearest_distance = float('inf')
-        for target in targets:
-            target_position = Coordinates(target['x'], target['y'])
-            distance = Point.distance(scan_position, target_position)
+        for obj in objects:
+            obj_position = Coordinates(obj[x_key], obj[y_key])
+            distance = Point.distance(position, obj_position)
             if distance < nearest_distance:
                 nearest_distance = distance
-                nearest_target = target
-        return nearest_target
-
-    @staticmethod
-    def _get_nearest_laser(
-            target_position: Coordinates,
-            lasers: List[Dict[str, Union[str, float]]]
-    ) -> Optional[Dict[str, Union[str, float]]]:
-        nearest_laser = None
-        nearest_distance = float('inf')
-        for laser in lasers:
-            laser_position = Coordinates(laser['x'], laser['y'])
-            distance = Point.distance(laser_position, target_position)
-            if distance < nearest_distance:
-                nearest_distance = distance
-                nearest_laser = laser
-        return nearest_laser
+                nearest_object = obj
+        return nearest_object
 
