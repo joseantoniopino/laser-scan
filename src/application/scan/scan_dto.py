@@ -2,7 +2,7 @@ from src.application.target.DTO.target_dto import TargetDTO
 from src.application.laser.DTO.laser_dto import LaserDTO
 
 
-class AimDTO:
+class ScanDTO:
     def __init__(self, laser_dto: LaserDTO, target_dto: TargetDTO):
         self.laser = {
             "laser_id": laser_dto.laser_id,

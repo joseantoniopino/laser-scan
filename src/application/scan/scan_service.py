@@ -1,6 +1,6 @@
 from typing import List, Dict, Union, Optional
 
-from src.application.aim.aim_dto import AimDTO
+from src.application.scan.scan_dto import ScanDTO
 from src.application.laser.DTO.laser_dto import LaserDTO
 from src.application.target.DTO.target_dto import TargetDTO
 from src.domain.common.point import Point
@@ -11,12 +11,12 @@ from src.domain.laser.factories.laser_factory import LaserFactory
 from src.domain.target.factories.target_factory import TargetFactory
 
 
-class AimService:
+class ScanService:
     def __init__(self, target_repository: ITargetRepository, laser_repository: ILaserRepository):
         self._target_repository = target_repository
         self._laser_repository = laser_repository
 
-    def handle(self, laser_id: str, x: float, y: float):
+    def handle(self, x: float, y: float):
         available_targets = self._target_repository.all()
         available_lasers = self._laser_repository.all()
         laser_dto = None
@@ -53,18 +53,18 @@ class AimService:
                     y=target_entity.get_position().get_y()
                 )
                 break
-        return AimDTO(laser_dto, target_dto)
+        return ScanDTO(laser_dto, target_dto)
 
     @staticmethod
     def _get_nearest_target(
-            aim_position: Coordinates,
+            scan_position: Coordinates,
             targets: List[Dict[str, Union[str, float]]]
     ) -> Optional[Dict[str, Union[str, float]]]:
         nearest_target = None
         nearest_distance = float('inf')
         for target in targets:
             target_position = Coordinates(target['x'], target['y'])
-            distance = Point.distance(aim_position, target_position)
+            distance = Point.distance(scan_position, target_position)
             if distance < nearest_distance:
                 nearest_distance = distance
                 nearest_target = target

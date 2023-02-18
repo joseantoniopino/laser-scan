@@ -1,12 +1,10 @@
-from typing import Dict
-
 from fastapi import Depends, APIRouter
 from starlette import status
 from pydantic import BaseModel
 
-from src.infrastructure.controllers.laser_controller import LaserController
+from src.infrastructure.controllers.scan_controller import ScanController
 
-router = APIRouter(prefix='/lasers')
+router = APIRouter(prefix='/scan')
 
 
 class Coordinates(BaseModel):
@@ -15,12 +13,11 @@ class Coordinates(BaseModel):
 
 
 @router.post(
-    '/{laser_id}/aim',
-    summary='Points the laser target to the given coordinates',
+    '/',
+    summary='Give nearly target and nearest laser',
     status_code=status.HTTP_200_OK,
 )
-async def aim(laser_id: str, coordinates: Coordinates, laser_controller: LaserController = Depends()):
+async def scan(coordinates: Coordinates, scan_controller: ScanController = Depends()):
     x = coordinates.x
     y = coordinates.y
-    return laser_controller.aim(laser_id, x, y)
-    # return {'x': coordinates.x, 'y': coordinates.y}
+    return scan_controller.scan(x, y)
