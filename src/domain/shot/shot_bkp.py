@@ -8,7 +8,7 @@ from src.domain.laser.interfaces.i_laser_shot import ILaserShot
 from src.domain.target.target import Target
 
 
-class Shot(ILaserShot):
+class ShotBkp(ILaserShot):
     def __init__(self, origin: Coordinates, target: Target):
         self._origin = origin
         self._last_fire = None

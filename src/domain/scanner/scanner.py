@@ -32,7 +32,7 @@ class Scanner:
                     laser_id=nearest_laser['id'],
                     x=nearest_laser['x'],
                     y=nearest_laser['y'],
-                    last_fire=nearest_laser.get('last_fire')
+                    last_fire=nearest_laser.get('last_shot')
                 )
                 break
         return self.laser_entity, self.target_entity

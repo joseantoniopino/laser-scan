@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 
 class ILaserRepository(ABC):
@@ -8,4 +9,8 @@ class ILaserRepository(ABC):
 
     @abstractmethod
     def all(self):
+        pass
+
+    @abstractmethod
+    def update_laser_last_shot(self, laser_id: str, last_shot: datetime):
         pass

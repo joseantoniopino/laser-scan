@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 from src.domain.common.faction import Faction
 from src.domain.common.value_objects import Coordinates
 from src.domain.exceptions.domain_exception import DomainException
-from src.domain.laser.aggregates.shot import Shot
+from src.domain.shot.shot import Shot
 from src.domain.target.target import Target
 
 

@@ -8,7 +8,7 @@ class ScanResponse:
         return {
             "laser": {
                 "laser_id": laser.get_laser_id(),
-                "last_fire": laser.get_last_fire(),
+                "last_shot": laser.get_last_shot(),
                 "position": {
                     "x": laser.get_position().get_x(),
                     "y": laser.get_position().get_y()

@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 from datetime import datetime
 
 from src.domain.common.value_objects import Coordinates
-from src.domain.laser.aggregates.shot import Shot
+from src.domain.shot.shot import Shot
 from src.domain.laser.interfaces.i_laser_shot import ILaserShot
 from src.domain.laser.laser import Laser
 from src.domain.target.target import Target
@@ -39,12 +39,12 @@ class TestLaser(TestCase):
         # Test last fire update
         last_fire = datetime.now()
         self.shot.get_last_fire.return_value = last_fire
-        self.assertEqual(self.laser.get_last_fire(), last_fire)
+        self.assertEqual(self.laser.get_last_shot(), last_fire)
 
     def test_get_last_fire(self):
         last_fire = datetime.now()
         self.shot.get_last_fire.return_value = last_fire
-        self.assertEqual(self.laser.get_last_fire(), last_fire)
+        self.assertEqual(self.laser.get_last_shot(), last_fire)
         self.shot.get_last_fire.assert_called_once()
 
     def test_str(self):

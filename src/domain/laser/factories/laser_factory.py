@@ -9,4 +9,4 @@ class LaserFactory:
     @staticmethod
     def create_laser(laser_id: str, x: float, y: float, last_fire: Union[datetime, None]) -> Laser:
         origin = Coordinates(x, y)
-        return Laser(laser_id=laser_id, position=origin, last_fire=last_fire)
+        return Laser(laser_id=laser_id, position=origin, last_shot=last_fire)
