@@ -2,11 +2,12 @@ from datetime import datetime
 from typing import Optional
 
 from src.domain.common.value_objects import Coordinates
+from src.domain.interfaces.i_entity_factory import IEntityFactory
 from src.domain.laser.laser import Laser
 from src.domain.target.target import Target
 
 
-class EntityFactory:
+class EntityFactory(IEntityFactory):
     @staticmethod
     def create_target(target_id: str, x: float, y: float) -> Target:
         position = Coordinates(x, y)
