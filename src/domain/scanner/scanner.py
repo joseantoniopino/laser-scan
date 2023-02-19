@@ -2,11 +2,10 @@ from typing import Dict, Union, List, Optional
 
 from src.domain.common.point import Point
 from src.domain.common.value_objects import Coordinates
-from src.domain.laser.factories.laser_factory import LaserFactory
-from src.domain.target.factories.target_factory import TargetFactory
+from src.domain.common.entity_factory import EntityFactory
 
 
-class Scan:
+class Scanner:
     def __init__(self, target_repository, laser_repository):
         self._target_repository = target_repository
         self._laser_repository = laser_repository
@@ -18,7 +17,7 @@ class Scan:
         target_dict = None
         while available_targets:
             nearest_target = self._get_nearest_object(Coordinates(x, y), available_targets)
-            target_entity = TargetFactory.create_target(
+            target_entity = EntityFactory.create_target(
                 target_id=nearest_target['id'],
                 x=nearest_target['x'],
                 y=nearest_target['y'],
@@ -28,7 +27,7 @@ class Scan:
                 available_targets.remove(nearest_target)
             else:
                 nearest_laser = self._get_nearest_object(target_entity.get_position(), available_lasers)
-                laser_entity = LaserFactory.create_laser(
+                laser_entity = EntityFactory.create_laser(
                     laser_id=nearest_laser['id'],
                     x=nearest_laser['x'],
                     y=nearest_laser['y'],
