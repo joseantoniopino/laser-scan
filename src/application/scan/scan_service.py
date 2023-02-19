@@ -6,8 +6,6 @@ from src.domain.scanner.scanner import Scanner
 
 class ScanService:
     def __init__(self, target_repository: ITargetRepository, laser_repository: ILaserRepository):
-        self._target_repository = target_repository
-        self._laser_repository = laser_repository
         self._scanner = Scanner(target_repository, laser_repository)
         self._scan_response = ScanResponse()
 

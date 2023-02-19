@@ -12,7 +12,7 @@ class Coordinates(BaseModel):
     y: float
 
 
-@router.post(
+@router.get(
     '/',
     summary='Give nearly target and nearest laser',
     status_code=status.HTTP_200_OK,
