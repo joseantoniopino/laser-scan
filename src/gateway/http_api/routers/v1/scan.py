@@ -14,7 +14,7 @@ class Coordinates(BaseModel):
 
 @router.get(
     '/',
-    summary='Give nearly target and nearest laser',
+    summary='Give nearly _target and nearest _laser',
     status_code=status.HTTP_200_OK,
 )
 async def scan(coordinates: Coordinates, scan_controller: ScanController = Depends()):

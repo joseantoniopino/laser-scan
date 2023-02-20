@@ -8,7 +8,7 @@ router = APIRouter(prefix='/shot')
 
 @router.post(
     '/{laser_id}/{target_id}',
-    summary='Give nearly target and nearest laser',
+    summary='Give nearly _target and nearest _laser',
     status_code=status.HTTP_200_OK,
 )
 async def shot(laser_id: str, target_id: str, shot_controller: ShotController = Depends()):

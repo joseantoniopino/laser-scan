@@ -7,9 +7,7 @@ from src.infrastructure.requests.shot_request import ShotRequest
 class ShotController:
     def __init__(self):
         self.shot_request = ShotRequest
-        self.laser_repository = LaserRepository()
-        self.target_repository = TargetRepository()
-        self.shot_service = ShotService(self.target_repository, self.laser_repository)
+        self.shot_service = ShotService()
 
     def shot(self, laser_id: str, target_id: str):
         shot_request = self.shot_request(laser_id, target_id)
