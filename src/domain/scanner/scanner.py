@@ -1,12 +1,13 @@
 from src.domain.common.value_objects import Coordinates
 from src.domain.common.entity_factory import EntityFactory
 from src.domain.common.NearestObjectFinder import NearestObjectFinder
+from src.domain.interfaces.i_entity_factory import IEntityFactory
 from src.domain.interfaces.repositories.i_laser_repository import ILaserRepository
 from src.domain.interfaces.repositories.i_target_repository import ITargetRepository
 
 
 class Scanner:
-    def __init__(self, target_repository: ITargetRepository, laser_repository: ILaserRepository):
+    def __init__(self, target_repository: ITargetRepository, laser_repository: ILaserRepository, entity_factory: IEntityFactory):
         self._target_repository = target_repository
         self._laser_repository = laser_repository
         self._nearest_object_finder = NearestObjectFinder()

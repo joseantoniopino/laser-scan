@@ -30,5 +30,5 @@ class Shot:
         if can_fire:
             # Actualizar el último disparo del láser
             self.laser_repository.update_laser_last_shot(laser_id, datetime.utcnow())
-        success = can_fire
-        return success, time_to_wait, self.laser.get_laser_id(), self.target.get("id")
+        can_fire
+        return can_fire, time_to_wait, self.laser.get_laser_id(), self.target.get("id")

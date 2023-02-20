@@ -1,12 +1,16 @@
 from src.application.scan.scan_response import ScanResponse
-from src.domain.interfaces.repositories.i_laser_repository import ILaserRepository
-from src.domain.interfaces.repositories.i_target_repository import ITargetRepository
+from src.domain.common.entity_factory import EntityFactory
 from src.domain.scanner.scanner import Scanner
+from src.infrastructure.repositories.LaserRepository import LaserRepository
+from src.infrastructure.repositories.TargetRepository import TargetRepository
 
 
 class ScanService:
-    def __init__(self, target_repository: ITargetRepository, laser_repository: ILaserRepository):
-        self._scanner = Scanner(target_repository, laser_repository)
+    def __init__(self):
+        self._target_repository = TargetRepository()
+        self._laser_repository = LaserRepository()
+        self._entity_factory = EntityFactory()
+        self._scanner = Scanner(self._target_repository, self._laser_repository, self._entity_factory)
         self._scan_response = ScanResponse()
 
     def handle(self, x: float, y: float):
