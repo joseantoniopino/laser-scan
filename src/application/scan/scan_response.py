@@ -6,15 +6,15 @@ class ScanResponse:
     @staticmethod
     def format(laser: Laser, target: Target) -> dict:
         return {
-            "_laser": {
+            "laser": {
                 "laser_id": laser.get_laser_id(),
-                "_last_shot": laser.get_last_shot(),
+                "last_shot": laser.get_last_shot(),
                 "position": {
                     "x": laser.get_position().get_x(),
                     "y": laser.get_position().get_y()
                 }
             },
-            "_target": {
+            "target": {
                 "target_id": target.get_target_id(),
                 "faction": target.get_faction(),
                 "ship_name": target.get_name(),
