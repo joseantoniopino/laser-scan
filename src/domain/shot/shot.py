@@ -22,7 +22,7 @@ class Shot:
             laser_from_repository.get("id"),
             laser_from_repository.get("x"),
             laser_from_repository.get("y"),
-            laser_from_repository.get("_last_shot")
+            laser_from_repository.get("last_shot")
         )
         self._last_shot = self._laser.get_last_shot()
 
