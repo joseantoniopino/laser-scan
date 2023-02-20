@@ -7,7 +7,7 @@ from src.domain.shot.shot_checker import ShotChecker
 
 class Shot:
     def __init__(self, target_repository: ITargetRepository, laser_repository: ILaserRepository, entity_factory: IEntityFactory):
-        self.shot_checker = ShotChecker((timedelta(minutes=1, seconds=45), timedelta(minutes=1), timedelta(seconds=30)))
+        self.shot_checker = ShotChecker()
         self._entity_factory = entity_factory
         self._target_repository = target_repository
         self._laser_repository = laser_repository
@@ -26,9 +26,10 @@ class Shot:
         )
         self._last_shot = self._laser.get_last_shot()
 
-        # Verificar que el láser puede disparar
         can_fire, time_to_wait = self.shot_checker.can_fire(self._last_shot)
+
         if can_fire:
-            # Actualizar el último disparo del láser
             self._laser_repository.update_laser_last_shot(laser_id, datetime.utcnow())
+            # TODO: Eliminar el target de la base de datos
         return can_fire, time_to_wait, self._laser.get_laser_id(), self._target.get("id")
+

@@ -3,20 +3,20 @@ from typing import Optional, Tuple
 
 
 class ShotChecker:
-    def __init__(self, wait_times: Tuple[timedelta, timedelta, timedelta]) -> None:
-        self.wait_times = wait_times
-
-    def can_fire(self, last_shot: Optional[datetime]) -> Tuple[bool, Optional[int]]:
+    @staticmethod
+    def can_fire(last_shot: Optional[datetime]) -> Tuple[bool, Optional[int]]:
         if last_shot is None:
             return True, None
 
         time_since_last_shot = datetime.utcnow() - last_shot
         wait_time = None
 
-        for i, wt in enumerate(self.wait_times):
-            if time_since_last_shot >= wt:
-                break
-            wait_time = wt - time_since_last_shot
+        if time_since_last_shot < timedelta(seconds=30):
+            wait_time = timedelta(seconds=30) - time_since_last_shot
+        elif time_since_last_shot < timedelta(minutes=1):
+            wait_time = timedelta(minutes=1) - time_since_last_shot
+        elif time_since_last_shot <= timedelta(minutes=1, seconds=45):
+            wait_time = timedelta(minutes=1, seconds=45) - time_since_last_shot
 
         if wait_time is None:
             return True, None
